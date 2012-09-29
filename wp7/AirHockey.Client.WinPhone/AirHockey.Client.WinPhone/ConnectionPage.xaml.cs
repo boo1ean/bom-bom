@@ -53,17 +53,21 @@ namespace AirHockey.Client.WinPhone
 
         private void ApplicationBarConnectButton_Click(object sender, EventArgs e)
         {
-            indicator.IsVisible = true;
-            try
+            if (IpText.Text != "" && UserName.Text != "")
             {
-                socketClient.Connect(IpText.Text, 5000);
+                try
+                {
+                    socketClient.Connect(IpText.Text, 5000);
+                    indicator.IsVisible = true;
+                }
+                catch (Exception)
+                {
+                }
             }
-            catch (Exception)
+            else
             {
-                ConnectFailed(SocketError.NotInitialized);
-                MessageText.Text = "Ip address is empty!";
+                MessageText.Text = "Ip address or User name is empty!";
             }
-            
         }
 
         void socketClient_ConnectFailed(SocketError result)
