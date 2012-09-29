@@ -1,5 +1,5 @@
 #include "connection.h"
-#include <Command.h>
+#include <command.h>
 
 Connection::Connection(QTcpSocket* socket, QObject *parent) :
     QObject(parent)
