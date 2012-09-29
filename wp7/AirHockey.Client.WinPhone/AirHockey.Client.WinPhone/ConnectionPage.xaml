@@ -27,7 +27,7 @@
     <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
       <StackPanel>
         <TextBlock Text="Server IP" Style="{StaticResource PhoneTextNormalStyle}" />
-        <TextBox />
+        <TextBox Name="IpText"/>
         <TextBlock Name="MessageText" Text="" Style="{StaticResource PhoneTextNormalStyle}" />
       </StackPanel>
     </Grid>
@@ -36,9 +36,9 @@
   <!--ApplicationBar-->
   <phone:PhoneApplicationPage.ApplicationBar>
     <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-      <shell:ApplicationBarIconButton IconUri="Images\ButtonFind.png" Text="find server" Click="ApplicationBarFindButton_Click" />
+      <!--<shell:ApplicationBarIconButton IconUri="Images\ButtonFind.png" Text="find server" Click="ApplicationBarFindButton_Click" />-->
       <shell:ApplicationBarIconButton IconUri="Images\ButtonConnect.png" Text="connect" Click="ApplicationBarConnectButton_Click"/>
-      <shell:ApplicationBarIconButton IconUri="Images\ButtonPlay.png" Text="play" Click="StartGame"/>
+      <shell:ApplicationBarIconButton  IconUri="Images\ButtonPlay.png" Text="play" Click="StartGame" IsEnabled="False"/>
     </shell:ApplicationBar>
   </phone:PhoneApplicationPage.ApplicationBar>
 
