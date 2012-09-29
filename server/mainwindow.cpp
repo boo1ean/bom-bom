@@ -143,7 +143,7 @@ void MainWindow::moveRect()
            qDebug() << "STOP";
         } else {
             rect->moveBy(0, a[Y] * SPEED);
-    //    }
+        }
 }
 
 void MainWindow::bounceBall()
