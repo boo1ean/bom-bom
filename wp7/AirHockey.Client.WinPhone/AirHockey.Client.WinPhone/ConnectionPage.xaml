@@ -36,9 +36,9 @@
   <!--ApplicationBar-->
   <phone:PhoneApplicationPage.ApplicationBar>
     <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-      <shell:ApplicationBarIconButton IconUri="Images\ButtonFind.png" Text="find server" Click="ApplicationBarFindButton_Click" />
+      <!--<shell:ApplicationBarIconButton IconUri="Images\ButtonFind.png" Text="find server" Click="ApplicationBarFindButton_Click" />-->
       <shell:ApplicationBarIconButton IconUri="Images\ButtonConnect.png" Text="connect" Click="ApplicationBarConnectButton_Click"/>
-      <shell:ApplicationBarIconButton IconUri="Images\ButtonPlay.png" Text="play" Click="StartGame"/>
+      <shell:ApplicationBarIconButton  IconUri="Images\ButtonPlay.png" Text="play" Click="StartGame" IsEnabled="False"/>
     </shell:ApplicationBar>
   </phone:PhoneApplicationPage.ApplicationBar>
 

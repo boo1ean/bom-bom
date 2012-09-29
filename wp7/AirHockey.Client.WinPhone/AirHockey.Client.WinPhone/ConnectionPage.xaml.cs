@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -40,23 +41,32 @@ namespace AirHockey.Client.WinPhone
             this.NavigationService.Navigate(new Uri("/Accelerometr.xaml", UriKind.Relative)); 
         }
 
-        private void ApplicationBarFindButton_Click(object sender, EventArgs e)
-        {
-            indicator.IsVisible = true;
+        //private void ApplicationBarFindButton_Click(object sender, EventArgs e)
+        //{
+        //    indicator.IsVisible = true;
             
-            //some method to find server
-            MessageText.Text = "Server Finded!";
-            //indicator.IsVisible = false;
+        //    //some method to find server
+        //    MessageText.Text = "Server Finded!";
+        //    //indicator.IsVisible = false;
 
-        }
+        //}
 
         private void ApplicationBarConnectButton_Click(object sender, EventArgs e)
         {
             indicator.IsVisible = true;
-            socketClient.Connect(IpText.Text,5000);
+            try
+            {
+                socketClient.Connect(IpText.Text, 5000);
+            }
+            catch (Exception)
+            {
+                ConnectFailed(SocketError.NotInitialized);
+                MessageText.Text = "Ip address is empty!";
+            }
+            
         }
 
-        void socketClient_ConnectFailed(System.Net.Sockets.SocketError result)
+        void socketClient_ConnectFailed(SocketError result)
         {
             Dispatcher.BeginInvoke(() => ConnectFailed(result));
         }
@@ -70,12 +80,16 @@ namespace AirHockey.Client.WinPhone
         {
             indicator.IsVisible = false;
             MessageText.Text = "Connected!!!!!!";
+            var playButton = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            playButton.IsEnabled = true;
         }
 
-        private void ConnectFailed(System.Net.Sockets.SocketError result)
+        private void ConnectFailed(SocketError result)
         {
             indicator.IsVisible = false;
             MessageText.Text = "Connection failed!!!!!!";
+            var playButton = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            playButton.IsEnabled = false;
         }
     }
 }
