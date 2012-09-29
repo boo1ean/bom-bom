@@ -78,10 +78,9 @@
     <Compile Include="Infrastructure\IOClass.cs" />
     <Compile Include="Network\ServerCommands.cs" />
     <Compile Include="Infrastructure\IpParser.cs" />
+    <Compile Include="Network\ServerNotifications.cs" />
     <Compile Include="Network\SocketClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ConnectionVm.cs" />
-    <Compile Include="_Snippets\Vibrator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
