@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Sockets;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using AirHockey.Client.WinPhone.Infrastructure;
 using AirHockey.Client.WinPhone.Network;
 using Microsoft.Phone.Controls;
@@ -19,6 +10,8 @@ namespace AirHockey.Client.WinPhone
 {
     public partial class ConnectionPage : PhoneApplicationPage
     {
+        private IOClass ioClass = new IOClass();
+
         private ProgressIndicator indicator=new ProgressIndicator()
         {
             IsVisible = false,
@@ -35,11 +28,12 @@ namespace AirHockey.Client.WinPhone
             SystemTray.SetProgressIndicator(this, indicator);
             socketClient.ConnectCompleted += socketClient_ConnectCompleted;
             socketClient.ConnectFailed += socketClient_ConnectFailed;
+            IpText.Text=ioClass.getIpAddress();
+            UserName.Text=ioClass.getUserName();
         }
 
         private void StartGame(object sender, EventArgs e)
         {
-            //this.NavigationService.Navigate(new Uri("/Accelerometr.xaml", UriKind.Relative)); 
             this.NavigationService.Navigate(new Uri("/GamePage.xaml", UriKind.Relative)); 
         }
 
@@ -57,12 +51,14 @@ namespace AirHockey.Client.WinPhone
         {
             if (IpText.Text != "" && UserName.Text != "")
             {
+                ioClass.saveIpAddress(IpText.Text);
+                ioClass.saveUserName(UserName.Text);
                 var ip = string.Empty;
                 var port = string.Empty;
                 var ipParser = new IpParser();
-                ipParser.Parse(IpText.Text, ref ip, ref port);
                 try
                 {
+                    ipParser.Parse(IpText.Text, ref ip, ref port);
                     socketClient.Connect(ip, Int32.Parse(port));
                     indicator.IsVisible = true;
                 }
@@ -103,6 +99,24 @@ namespace AirHockey.Client.WinPhone
             MessageText.Text = "Connection failed!!!!!!";
             var playButton = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
             playButton.IsEnabled = false;
+        }
+
+        private void IpText_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            ioClass.saveIpAddress(IpText.Text);
+        }
+
+        private void UserName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            ioClass.saveUserName(UserName.Text);
+        }
+
+        private void KeyUp_Focus(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key==Key.Enter)
+            {
+                this.Focus();
+            }
         }
     }
 }
