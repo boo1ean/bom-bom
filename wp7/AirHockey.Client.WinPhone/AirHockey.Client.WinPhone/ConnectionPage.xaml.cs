@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using AirHockey.Client.WinPhone.Network;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
@@ -23,11 +24,15 @@ namespace AirHockey.Client.WinPhone
             Text = ""
         };
 
+        private SocketClient socketClient = new SocketClient();
+
         // Constructor
         public ConnectionPage()
         {
             InitializeComponent();
             SystemTray.SetProgressIndicator(this, indicator);
+            socketClient.ConnectCompleted += socketClient_ConnectCompleted;
+            socketClient.ConnectFailed += socketClient_ConnectFailed;
         }
 
         private void StartGame(object sender, EventArgs e)
@@ -47,10 +52,30 @@ namespace AirHockey.Client.WinPhone
 
         private void ApplicationBarConnectButton_Click(object sender, EventArgs e)
         {
-            //indicator.IsVisible = true;
-            MessageText.Text = "Connect succesful. You can start the game!";
-            //some method to connect to server
+            indicator.IsVisible = true;
+            socketClient.Connect(IpText.Text,5000);
+        }
+
+        void socketClient_ConnectFailed(System.Net.Sockets.SocketError result)
+        {
+            Dispatcher.BeginInvoke(() => ConnectFailed(result));
+        }
+
+        void socketClient_ConnectCompleted()
+        {
+            Dispatcher.BeginInvoke(ConnectCompleted);
+        }
+
+        private void ConnectCompleted()
+        {
             indicator.IsVisible = false;
+            MessageText.Text = "Connected!!!!!!";
+        }
+
+        private void ConnectFailed(System.Net.Sockets.SocketError result)
+        {
+            indicator.IsVisible = false;
+            MessageText.Text = "Connection failed!!!!!!";
         }
     }
 }

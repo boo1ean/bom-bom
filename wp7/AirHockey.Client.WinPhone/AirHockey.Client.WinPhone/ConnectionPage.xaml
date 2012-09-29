@@ -27,7 +27,7 @@
     <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
       <StackPanel>
         <TextBlock Text="Server IP" Style="{StaticResource PhoneTextNormalStyle}" />
-        <TextBox />
+        <TextBox Name="IpText"/>
         <TextBlock Name="MessageText" Text="" Style="{StaticResource PhoneTextNormalStyle}" />
       </StackPanel>
     </Grid>
