@@ -23,12 +23,11 @@ namespace AirHockey.Client.WinPhone
             if(!Accelerometer.IsSupported)
             {
                 statusTextBlock.Text = "device does not support accelerometer";
-                startButton.IsEnabled = false;
-                stopButton.IsEnabled = false;
+                startAccelerometer();
             }
         }
 
-        private void startButton_Click(object sender, RoutedEventArgs e)
+        private void startAccelerometer()
         {
             if(accelerometer == null)
             {
@@ -64,13 +63,6 @@ namespace AirHockey.Client.WinPhone
             yTextBlock.Text = "Y: " + acceleration.Y.ToString("0.00");
             zTextBlock.Text = "Z: " + acceleration.Z.ToString("0.00");
 
-            // Show the values graphically.
-            xLine.X2 = xLine.X1 + acceleration.X * 200;
-            yLine.Y2 = yLine.Y1 - acceleration.Y * 200;
-            zLine.X2 = zLine.X1 - acceleration.Z * 100;
-            zLine.Y2 = zLine.Y1 + acceleration.Z * 100;
-
-
             var buffer = new List<byte>
                              {
                                  (byte) ServerCommands.AccelerometerData
@@ -81,16 +73,6 @@ namespace AirHockey.Client.WinPhone
             buffer.AddRange(BitConverter.GetBytes(acceleration.Z));
             
             socketClient.Send(buffer.ToArray());
-        }
-
-        private void stopButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (accelerometer != null)
-            {
-                // Stop the accelerometer.
-                accelerometer.Stop();
-                statusTextBlock.Text = "accelerometer stopped.";
-            }
         }
     }
 }
