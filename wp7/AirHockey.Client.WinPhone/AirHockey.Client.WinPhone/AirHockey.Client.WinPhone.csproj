@@ -76,6 +76,8 @@
       <DependentUpon>Accelerometr.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\IOClass.cs" />
+    <Compile Include="Network\GameNetworkClient.cs" />
+    <Compile Include="Network\ISocketClient.cs" />
     <Compile Include="Network\ServerCommands.cs" />
     <Compile Include="Infrastructure\IpParser.cs" />
     <Compile Include="Network\ServerNotifications.cs" />

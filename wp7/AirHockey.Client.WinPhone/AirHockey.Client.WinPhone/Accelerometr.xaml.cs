@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
 using AirHockey.Client.WinPhone.Network;
 using Microsoft.Devices;
 using Microsoft.Devices.Sensors;
-using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 namespace AirHockey.Client.WinPhone
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class MainPage
     {
-        private Accelerometer accelerometer;
-        private SocketClient socketClient = SocketClient.Client;
+        private Accelerometer _accelerometer;
+        private readonly SocketClient _socketClient = GameNetworkClient.GlobalSocketClient;
+        private readonly GameNetworkClient _gameClient = GameNetworkClient.GlobalGameNetworkClient;
 
         public void PlaySound(string soundFile)
         {
@@ -34,7 +32,7 @@ namespace AirHockey.Client.WinPhone
         public MainPage()
         {
             InitializeComponent();
-            socketClient.Received += changedGameState;
+            _gameClient.ReceivedNotification += changedGameState;
 
             if(!Accelerometer.IsSupported)
             {
@@ -73,19 +71,18 @@ namespace AirHockey.Client.WinPhone
 
         private void startAccelerometer()
         {
-            if(accelerometer == null)
+            if(_accelerometer == null)
             {
-                accelerometer = new Accelerometer();
-                accelerometer.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                accelerometer.CurrentValueChanged += accelerometer_CurrentValueChanged;
+                _accelerometer = new Accelerometer { TimeBetweenUpdates = TimeSpan.FromMilliseconds(20) };
+                _accelerometer.CurrentValueChanged += accelerometer_CurrentValueChanged;
             }
 
             try
             {
                 statusTextBlock.Text = "starting accelerometer.";
-                accelerometer.Start();
+                _accelerometer.Start();
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
                 statusTextBlock.Text = "unable to start accelerometer.";
             }
@@ -93,10 +90,10 @@ namespace AirHockey.Client.WinPhone
 
         void accelerometer_CurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)
         {
-            Dispatcher.BeginInvoke(() => UpdateUI(e.SensorReading));
+            Dispatcher.BeginInvoke(() => updateUi(e.SensorReading));
         }
 
-        private void UpdateUI(AccelerometerReading sensorReading)
+        private void updateUi(AccelerometerReading sensorReading)
         {
             statusTextBlock.Text = "getting data";
 
@@ -116,7 +113,7 @@ namespace AirHockey.Client.WinPhone
             buffer.AddRange(BitConverter.GetBytes(acceleration.Y));
             buffer.AddRange(BitConverter.GetBytes(acceleration.Z));
             
-            socketClient.Send(buffer.ToArray());
+            _socketClient.Send(buffer.ToArray());
         }
     }
 }
