@@ -4,47 +4,79 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace AirHockey.Client.WinPhone.Network
 {
     internal class SocketClient : IDisposable
     {
-        private readonly Socket _socket;
+        private int _maxBufferSize = 2;
+
+        private Socket _socket;
+        private SocketAsyncEventArgs _socketEventArg;
 
         public delegate void ConnectCompletedEventHandler();
         public delegate void ConnectFailedEventHandler(SocketError result);
+        public delegate void ReceiveEventHandler(ServerNotifications notification);
+
         public event ConnectCompletedEventHandler ConnectCompleted;
         public event ConnectFailedEventHandler ConnectFailed;
+        public event ReceiveEventHandler Received;
 
         public bool IsConnected { get; private set; }
 
-        public SocketClient()
+        public int MaxReceiveBufferSize
         {
-            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            get
+            {
+                return _maxBufferSize;
+            }
+            set
+            {
+                _maxBufferSize = value;
+                if (IsConnected)
+                    _socketEventArg.SetBuffer(new byte[_maxBufferSize], 0, _maxBufferSize);
+            }
         }
 
         public void Connect(string hostName, int portNumber)
         {
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             var endPoint = new DnsEndPoint(hostName, portNumber);
-            var socketEventArg = new SocketAsyncEventArgs { RemoteEndPoint = endPoint };
+            _socketEventArg = new SocketAsyncEventArgs { RemoteEndPoint = endPoint };
 
-            socketEventArg.Completed +=
-                (s, e) =>
+            _socketEventArg.SetBuffer(new byte[_maxBufferSize], 0, _maxBufferSize);
+
+            _socketEventArg.Completed += socketEventArgOnCompleted;
+
+            _socket.ConnectAsync(_socketEventArg);
+        }
+
+        private void socketEventArgOnCompleted(object sender, SocketAsyncEventArgs e)
+        {
+            if (e.SocketError == SocketError.Success)
+            {
+                if (e.LastOperation == SocketAsyncOperation.Connect)
                 {
-                    if (e.SocketError == SocketError.Success)
-                    {
-                        invokeConnectCompleted();
-                        IsConnected = true;
-                    }
-                    else
-                        invokeConnectFailed(e.SocketError);
-                };
-
-            _socket.ConnectAsync(socketEventArg);
+                    invokeConnectCompleted();
+                    IsConnected = true;
+                }
+                else if (e.LastOperation == SocketAsyncOperation.Receive)
+                {
+                    if (e.Buffer[0] == (byte)ServerCommands.Notification)
+                        invokeReceived((ServerNotifications)e.Buffer[1]);
+                    Receive();
+                }
+            }
+            else
+                invokeConnectFailed(e.SocketError);
         }
 
         public void Send(byte[] data)
         {
+            if (_socket == null)
+                throw new NetworkException(NetworkError.SocketNotConnected);
+
             var socketEventArg = new SocketAsyncEventArgs { RemoteEndPoint = _socket.RemoteEndPoint, UserToken = null };
             socketEventArg.SetBuffer(data, 0, data.Length);
             _socket.SendAsync(socketEventArg);
@@ -67,6 +99,11 @@ namespace AirHockey.Client.WinPhone.Network
             var coordinates = floatArrayToByteArray(new[] { x, y, z });
             var data = insertCommand(coordinates, ServerCommands.AccelerometerData);
             Send(data);
+        }
+
+        public void Receive()
+        {
+            _socket.ReceiveAsync(_socketEventArg);
         }
 
         private static byte[] insertCommand(IEnumerable<byte> data, ServerCommands command)
@@ -95,10 +132,27 @@ namespace AirHockey.Client.WinPhone.Network
             if (handler != null) handler(result);
         }
 
+        private void invokeReceived(ServerNotifications notification)
+        {
+            var handler = Received;
+            if (handler != null) handler(notification);
+        }
+
+        public void Close()
+        {
+            if (IsConnected)
+            {
+                _socket.Close();
+            }
+        }
+
         public void Dispose()
         {
-            _socket.Close();
-            _socket.Dispose();
+            if (_socket != null)
+            {
+                _socket.Dispose();
+                _socket = null;
+            }
         }
     }
 }
