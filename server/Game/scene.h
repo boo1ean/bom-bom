@@ -3,12 +3,14 @@
 
 #include <QObject>
 #include <Box2D.h>
+#include <QGraphicsScene>
 
 class Scene : public QObject
 {
     Q_OBJECT
 
-    b2World* _world;
+    b2World *_world;
+    QGraphicsScene *_scene;
 
 public:
     explicit Scene(QObject *parent = 0);

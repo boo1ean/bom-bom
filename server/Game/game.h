@@ -22,7 +22,7 @@ public:
 signals:
     
 private slots:
-    void receiveConenction(Connection* connection);
+    void receiveConnection(Connection* connection);
     void initClient(Command command, QByteArray data);
 };
 

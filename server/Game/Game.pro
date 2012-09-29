@@ -6,7 +6,7 @@
 
 QT       += core gui network opengl
 
-TARGET = GraphicView
+TARGET = Game
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -39,4 +39,5 @@ HEADERS  += mainwindow.h \
 RESOURCES += \
     tiles.qrc
 
-INCLUDEPATH += ../Box2D
+INCLUDEPATH += .. \
+    ../Box2D

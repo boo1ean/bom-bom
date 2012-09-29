@@ -13,10 +13,10 @@ Game::Game(int argc, char* argv[]) :
     connect(_server, SIGNAL(newConnection(Connection*)),
             this,    SLOT(receiveConnection(Connection*)));
 
-    _Scene = new Scene;
+    _scene = new Scene;
 }
 
-void Game::receiveConenction(Connection *connection) {
+void Game::receiveConnection(Connection *connection) {
     connect(connection, SIGNAL(newCommand(Command, QByteArray)),
             this,       SLOT(initClient(Command, QByteArray)));
 }
