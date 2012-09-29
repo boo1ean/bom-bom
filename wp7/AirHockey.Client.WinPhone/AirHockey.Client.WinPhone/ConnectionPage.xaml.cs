@@ -60,7 +60,7 @@ namespace AirHockey.Client.WinPhone
                 var ip = string.Empty;
                 var port = string.Empty;
                 var ipParser = new IpParser();
-                ipParser.Parse(IpText.Text,ref ip, ref port);
+                ipParser.Parse(IpText.Text, ref ip, ref port);
                 try
                 {
                     socketClient.Connect(ip, Int32.Parse(port));
@@ -84,6 +84,8 @@ namespace AirHockey.Client.WinPhone
 
         void socketClient_ConnectCompleted()
         {
+            socketClient.SendInitInfo();
+            socketClient.SendName(UserName.Text);
             Dispatcher.BeginInvoke(ConnectCompleted);
         }
 
