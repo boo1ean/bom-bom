@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using AirHockey.Client.WinPhone.Network;
+using Microsoft.Devices;
 using Microsoft.Devices.Sensors;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace AirHockey.Client.WinPhone
 {
@@ -13,17 +15,59 @@ namespace AirHockey.Client.WinPhone
     {
         private Accelerometer accelerometer;
         private SocketClient socketClient = SocketClient.Client;
-        
 
+        public void PlaySound(string soundFile)
+        {
+            using (var stream = TitleContainer.OpenStream("Content\\" + soundFile))
+            {
+                var effect = SoundEffect.FromStream(stream);
+                FrameworkDispatcher.Update();
+                effect.Play();
+            }
+        }
+
+        public static void Vibrate(double milliseconds)
+        {
+            VibrateController.Default.Start(TimeSpan.FromMilliseconds(milliseconds));
+        }
 
         public MainPage()
         {
             InitializeComponent();
+            socketClient.Received += changedGameState;
 
             if(!Accelerometer.IsSupported)
             {
                 statusTextBlock.Text = "device does not support accelerometer";
                 startAccelerometer();
+            }
+        }
+
+        void changedGameState(ServerNotifications notification)
+        {
+            switch (notification)
+            {
+                case ServerNotifications.Hit:
+                    Vibrate(300);
+                    PlaySound("Flop.wav");
+                    break;
+                case ServerNotifications.Win:
+
+                    break;
+                case ServerNotifications.FieldUpdated:
+
+                    break;
+                case ServerNotifications.Miss:
+
+                    break;
+                case ServerNotifications.Goal:
+
+                    break;
+                case ServerNotifications.Start:
+                    Vibrate(1000);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("notification");
             }
         }
 
@@ -33,7 +77,7 @@ namespace AirHockey.Client.WinPhone
             {
                 accelerometer = new Accelerometer();
                 accelerometer.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
-                accelerometer.CurrentValueChanged += new EventHandler<SensorReadingEventArgs<AccelerometerReading>>(accelerometer_CurrentValueChanged);
+                accelerometer.CurrentValueChanged += accelerometer_CurrentValueChanged;
             }
 
             try
