@@ -17,14 +17,6 @@ enum USER_TYPE {
     USER_OBSERVER
 };
 
-enum CMD {
-    CMD_INIT,
-    CMD_NAME,
-    CMD_ACC_DATA,
-    CMD_NOTIFY,
-    CMD_SCENE_STATE
-};
-
 class User : public QObject
 {
     Q_OBJECT
@@ -32,8 +24,6 @@ public:
     explicit User(QTcpSocket * connection, QObject *parent = 0);
     QString getName();
     void setName(QString);
-
-    char getType();
     
 signals:
 
@@ -41,22 +31,8 @@ public slots:
     void onReadyRead();
 
 private:
-
-    void setType(char);
-
-    void cmd_init();
-    void cmd_name();
-    void cmd_accData();
-    void cmd_sceneState();
-    void cmd_notify();
-
-
-
-    char       type;
-    QString    name;
-    QByteArray data;
-
-    QTcpSocket * connection;
+    QString name;
+    
 };
 
 #endif // USER_H
