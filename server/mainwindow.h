@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QGraphicsView>
+#include <user.h>
 
 QT_BEGIN_NAMESPACE
 class QPushButton;
@@ -37,16 +38,18 @@ private:
     unsigned halfWidth;
     unsigned halfHeight;
 
-    QTcpSocket          * clientConnection;
-    QGraphicsScene      * scene;
-    QGraphicsRectItem   * rect;
-    QGraphicsPixmapItem * ball;
+    QTcpSocket           * clientConnection;
+    QGraphicsScene       * scene;
+    QGraphicsRectItem    * rect;
+    QGraphicsEllipseItem * ball;
 
     QTimeLine              * timer;
     QGraphicsItemAnimation * animation;
 
     QTcpServer      * tcpServer;
     QNetworkSession * networkSession;
+
+    QList<User*> users;
 };
 
 #endif // MAINWINDOW_H

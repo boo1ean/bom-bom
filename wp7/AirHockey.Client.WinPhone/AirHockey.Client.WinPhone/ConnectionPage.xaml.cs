@@ -39,7 +39,8 @@ namespace AirHockey.Client.WinPhone
 
         private void StartGame(object sender, EventArgs e)
         {
-            this.NavigationService.Navigate(new Uri("/Accelerometr.xaml", UriKind.Relative)); 
+            //this.NavigationService.Navigate(new Uri("/Accelerometr.xaml", UriKind.Relative)); 
+            this.NavigationService.Navigate(new Uri("/GamePage.xaml", UriKind.Relative)); 
         }
 
         //private void ApplicationBarFindButton_Click(object sender, EventArgs e)
