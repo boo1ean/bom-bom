@@ -9,7 +9,7 @@ namespace TestTcpServer
     {
         static void Main(string[] args)
         {
-            var serverSocket = new TcpListener(new IPAddress(new byte[] { 172, 168, 1, 39 }), 5000);
+            var serverSocket = new TcpListener(new IPAddress(new byte[] { 192, 168, 1, 139 }), 5000);
             serverSocket.Start();
 
             Console.WriteLine("Waiting for a client...");

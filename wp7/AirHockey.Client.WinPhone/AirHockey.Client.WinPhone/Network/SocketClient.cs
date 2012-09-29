@@ -18,6 +18,17 @@ namespace AirHockey.Client.WinPhone.Network
 
         public bool IsConnected { get; private set; }
 
+
+        private static SocketClient _client;
+        public static SocketClient Client { get
+        {
+            if(_client == null)
+            {
+                _client = new SocketClient();
+            }
+            return _client;
+        }}
+
         public SocketClient()
         {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

@@ -26,7 +26,7 @@ namespace AirHockey.Client.WinPhone
             Text = ""
         };
 
-        private SocketClient socketClient = new SocketClient();
+        private SocketClient socketClient = SocketClient.Client;
 
         // Constructor
         public ConnectionPage()
@@ -85,7 +85,7 @@ namespace AirHockey.Client.WinPhone
         void socketClient_ConnectCompleted()
         {
             socketClient.SendInitInfo();
-            socketClient.SendName(UserName.Text);
+            Dispatcher.BeginInvoke(() => socketClient.SendName(UserName.Text));
             Dispatcher.BeginInvoke(ConnectCompleted);
         }
 
