@@ -47,7 +47,7 @@ type
 
   TGame = class(TObjectList)
   const
-    MinPlayers = 1;
+    MinPlayers = 2;
   private
     class var FieldSize: TPointF;
     FScore: array[0..1] of Integer;
@@ -190,8 +190,8 @@ var
   io: TIdIOHandler;
   cmd: Integer;
 const
-  OsColors: array[0..3] of DWord = (TAlphaColorRec.Black, TAlphaColorRec.Yellow, TAlphaColorRec.Blue,
-    TAlphaColorRec.Silver);
+  OsColors: array[0..4] of DWord = (TAlphaColorRec.Black, TAlphaColorRec.Yellow, TAlphaColorRec.Blue,
+    TAlphaColorRec.Silver, TAlphaColorRec.Maroon);
 
   procedure onExit;
   begin
@@ -219,7 +219,9 @@ begin
       system.Move(FLastData[0], Sensor, 16);
       Move(Sensor.timeDelta);
     end;
-    1: Color := OsColors[io.ReadLongInt];
+    1: try
+      Color := OsColors[io.ReadLongInt];
+    except end;
     2: begin
       SetLength(Name, io.ReadLongInt);
       Name := io.ReadString(length(Name)*2, TEncoding.Unicode);
