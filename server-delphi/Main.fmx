@@ -1,0 +1,32 @@
+object fMain: TfMain
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  BorderStyle = bsNone
+  ClientHeight = 496
+  ClientWidth = 800
+  Visible = False
+  WindowState = wsMaximized
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnResize = FormResize
+  StyleLookup = 'backgroundstyle'
+  OnPaint = FormPaint
+  object Timer1: TTimer
+    Interval = 1
+    OnTimer = Timer1Timer
+    Left = 304
+    Top = 224
+  end
+  object IdTCPServer1: TIdTCPServer
+    Active = True
+    Bindings = <>
+    DefaultPort = 9595
+    OnConnect = IdTCPServer1Connect
+    OnDisconnect = IdTCPServer1Disconnect
+    OnExecute = IdTCPServer1Execute
+    Left = 480
+    Top = 224
+  end
+end
