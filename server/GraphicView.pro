@@ -13,16 +13,27 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     user.cpp \
-    game.cpp \
     server.cpp \
-    connection.cpp
+    connection.cpp \
+    game.cpp \
+    screenobject.cpp \
+    clientscreenobject.cpp \
+    player.cpp \
+    client.cpp \
+    observer.cpp
 
 HEADERS  += mainwindow.h \
     user.h \
-    game.h \
     server.h \
     connection.h \
-    Command.h
+    Command.h \
+    game.h \
+    screenobject.h \
+    clientscreenobject.h \
+    player.h \
+    client.h \
+    ClientType.h \
+    observer.h
 
 RESOURCES += \
     tiles.qrc

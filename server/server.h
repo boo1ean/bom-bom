@@ -2,6 +2,7 @@
 #define SERVER_H
 
 #include <QtNetwork>
+#include <connection.h>
 
 class Connection;
 
@@ -14,6 +15,7 @@ class Server : public QObject
 
 public:
     explicit Server(QObject *parent = 0);
+    void start();
     
 signals:
 

@@ -7,7 +7,7 @@
 Server::Server(QObject *parent) :
     QObject(parent)
 {
-    connect(_server, SIGNAL(newConnection()), this, SLOT(startConnection()));
+    connect(_server, SIGNAL(newConnection()), this, SLOT(receiveConnection()));
 
     QNetworkConfigurationManager manager;
 
@@ -15,7 +15,7 @@ Server::Server(QObject *parent) :
 
         _networkSession = new QNetworkSession(manager.defaultConfiguration(), this);
         connect(_networkSession, SIGNAL(opened()), this, SLOT(sessionOpened()));
-        networkSession->open();
+        _networkSession->open();
 
     } else {
 
@@ -30,13 +30,13 @@ void Server::sessionOpened()
 
     if (!_server->listen(QHostAddress::Any, DEFAULT_PORT)) {
         QString message = tr("Unable to start the server: %1.").arg(_server->errorString());
-        throw new std::exception(message);
+        throw new std::exception();
     }
 }
 
-void MainWindow::startConnection()
+void Server::receiveConnection()
 {
-    QTcpSocket* socket = tcpServer->nextPendingConnection();
+    QTcpSocket* socket = _server->nextPendingConnection();
 
     emit newConnection(new Connection(socket));
 }

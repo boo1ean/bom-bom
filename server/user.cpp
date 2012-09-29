@@ -55,7 +55,7 @@ void User::onReadyRead() {
         break;
 
         default:
-            throw new std::exception("Unknown command.");
+            throw new std::exception();
     }
 }
 

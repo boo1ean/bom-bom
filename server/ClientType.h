@@ -1,0 +1,13 @@
+#ifndef CLIENT_TYPE_H
+#define CLIENT_TYPE_H
+
+enum ClientType {
+    CLIENT_BADA,
+    CLIENT_ANDROID,
+    CLIENT_WP7,
+    CLIENT_IPHONE,
+    CLIENT_SYMBIAN,
+    CLIENT_OBSERVER
+};
+
+#endif // DEVICE_H

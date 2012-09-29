@@ -2,13 +2,28 @@
 #define GAME_H
 
 #include <QObject>
+#include <server.h>
+#include <connection.h>
+#include <clientscreenobject.h>
+#include <ClientType.h>
+#include <player.h>
+#include <observer.h>
 
-class Game : QObject
+class Game : public QObject
 {
     Q_OBJECT
 
+    Server* _server;
+    QList <ClientScreenObject*> clients;
+
 public:
-    Game();
+    explicit Game(QObject *parent = 0);
+    
+signals:
+    
+private slots:
+    void receiveConenction(Connection* connection);
+    void initClient(Command command, QByteArray data);
 };
 
 #endif // GAME_H
