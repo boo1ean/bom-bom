@@ -22,7 +22,7 @@ namespace AirHockey.Client.WinPhone
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public PhoneApplicationFrame RootFrame { get; private set; }
-
+        
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>

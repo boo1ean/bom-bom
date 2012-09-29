@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -8,14 +9,14 @@ namespace TestTcpServer
     {
         static void Main(string[] args)
         {
-            var serverSocket = new TcpListener(6666);
+            var serverSocket = new TcpListener(new IPAddress(new byte[] { 192, 168, 1, 139 }), 5000);
             serverSocket.Start();
 
             Console.WriteLine("Waiting for a client...");
 
             var client = serverSocket.AcceptTcpClient();
             var ns = client.GetStream();
-
+            Console.WriteLine("Connected");
             while (true)
             {
                 var data = new byte[1024];

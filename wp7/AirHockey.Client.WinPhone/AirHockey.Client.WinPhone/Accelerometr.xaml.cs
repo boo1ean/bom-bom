@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using AirHockey.Client.WinPhone.Network;
 using Microsoft.Devices.Sensors;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
@@ -18,10 +19,13 @@ namespace AirHockey.Client.WinPhone
     public partial class MainPage : PhoneApplicationPage
     {
         private Accelerometer accelerometer;
+        private SocketClient client;
+        
 
         public MainPage()
         {
             InitializeComponent();
+            client = new SocketClient();
 
             if(!Accelerometer.IsSupported)
             {
@@ -72,6 +76,8 @@ namespace AirHockey.Client.WinPhone
             yLine.Y2 = yLine.Y1 - acceleration.Y * 200;
             zLine.X2 = zLine.X1 - acceleration.Z * 100;
             zLine.Y2 = zLine.Y1 + acceleration.Z * 100;
+
+            
         }
 
         private void stopButton_Click(object sender, RoutedEventArgs e)

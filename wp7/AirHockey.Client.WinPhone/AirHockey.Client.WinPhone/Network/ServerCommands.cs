@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AirHockey.Client.WinPhone.Network
+﻿namespace AirHockey.Client.WinPhone.Network
 {
     internal enum ServerCommands : byte
     {
