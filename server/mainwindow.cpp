@@ -42,10 +42,11 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::startServer()
 {
     rect = scene->addRect(0, 0, BENDY_WIDTH, BENDY_HEIGHT);
-    ball = scene->addPixmap(QPixmap("ball.png"));
+    ball = scene->addEllipse(0,0,50,50);
+    ball->setBrush(Qt::SolidPattern);
 
-    halfWidth  = (width() - ball->pixmap().width()) / 2;
-    halfHeight = (height() - ball->pixmap().height()) / 2;
+    halfWidth  = (width() - ball->boundingRect().width()) / 2;
+    halfHeight = (height() - ball->boundingRect().height()) / 2;
     // Move ball to the center
     ball->setPos(halfWidth, halfHeight);
 
@@ -124,30 +125,25 @@ void MainWindow::startConnection()
     qDebug() << "Connected";
 
     clientConnection = tcpServer->nextPendingConnection();
-
-    connect(clientConnection, SIGNAL(disconnected()),
-            clientConnection, SLOT(deleteLater()));
-
-    // Execute moveRect method if there is new data in socket
-    connect(clientConnection, SIGNAL(readyRead()),
-            this,             SLOT(moveRect()));
+    users.push_back(new User(clientConnection));
 }
 
 void MainWindow::moveRect()
 {
     // Get x, y, z
     QByteArray data = clientConnection->readAll();
-    a = (float*)data.data();
+    qDebug() << "HANDLE";
+        a = (float*)data.data();
 
-    // qDebug() << a[X] << a[Y] << a[Z];
+        // qDebug() << a[X] << a[Y] << a[Z];
 
-    qDebug() << "Y: " << rect->y();
+        qDebug() << "Y: " << rect->y();
 
-    if ((a[Y] < 0 && rect->y() < 0) || (a[Y] > 0 && (rect->y() + BENDY_HEIGHT) > height())) {
-       qDebug() << "STOP";
-    } else {
-        rect->moveBy(0, a[Y] * SPEED);
-    }
+        if ((a[Y] < 0 && rect->y() < 0) || (a[Y] > 0 && (rect->y() + BENDY_HEIGHT) > height())) {
+           qDebug() << "STOP";
+        } else {
+            rect->moveBy(0, a[Y] * SPEED);
+    //    }
 }
 
 void MainWindow::bounceBall()
