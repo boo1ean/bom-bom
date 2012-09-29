@@ -65,7 +65,7 @@ namespace AirHockey.Client.WinPhone.Network
         public void SendAccelerometerData(float x, float y, float z)
         {
             var coordinates = floatArrayToByteArray(new[] { x, y, z });
-            var data = insertCommand(coordinates, ServerCommands.Name);
+            var data = insertCommand(coordinates, ServerCommands.AccelerometerData);
             Send(data);
         }
 
