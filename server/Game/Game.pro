@@ -9,7 +9,6 @@ QT       += core gui network opengl
 TARGET = GraphicView
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     user.cpp \
@@ -20,7 +19,8 @@ SOURCES += main.cpp\
     clientscreenobject.cpp \
     player.cpp \
     client.cpp \
-    observer.cpp
+    observer.cpp \
+    scene.cpp
 
 HEADERS  += mainwindow.h \
     user.h \
@@ -33,7 +33,10 @@ HEADERS  += mainwindow.h \
     client.h \
     observer.h \
     command.h \
-    clienttype.h
+    clienttype.h \
+    scene.h
 
 RESOURCES += \
     tiles.qrc
+
+INCLUDEPATH += ../Box2D

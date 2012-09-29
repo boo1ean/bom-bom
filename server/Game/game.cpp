@@ -1,13 +1,19 @@
-#include "game.h"
 #include <exception>
 
-Game::Game(QObject *parent) :
-    QObject(parent)
+#include "game.h"
+#include "clienttype.h"
+#include "player.h"
+#include "observer.h"
+
+Game::Game(int argc, char* argv[]) :
+    QApplication(argc, argv)
 {
     _server = new Server;
 
     connect(_server, SIGNAL(newConnection(Connection*)),
             this,    SLOT(receiveConnection(Connection*)));
+
+    _Scene = new Scene;
 }
 
 void Game::receiveConenction(Connection *connection) {

@@ -1,23 +1,23 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <QObject>
-#include <server.h>
-#include <connection.h>
-#include <clientscreenobject.h>
-#include <clienttype.h>
-#include <player.h>
-#include <observer.h>
+#include <QApplication>
+#include "server.h"
+#include "connection.h"
+#include "clientscreenobject.h"
+#include "scene.h"
 
-class Game : public QObject
+class Game : public QApplication
 {
     Q_OBJECT
 
     Server* _server;
+    Scene* _scene;
+
     QList <ClientScreenObject*> clients;
 
 public:
-    explicit Game(QObject *parent = 0);
+    explicit Game(int argc, char* argv[]);
     
 signals:
     
