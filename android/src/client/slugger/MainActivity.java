@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
 		dataOutputStream.writeInt(1);
 		dataOutputStream.writeInt(1);
 		accReader = new AccReader();
-		mSensorManager.registerListener(accReader, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+		mSensorManager.registerListener(accReader, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
 		EditText textMessage = (EditText)findViewById(R.id.editText1);
 		sendName(textMessage.getText().toString());
 	    textMessage.addTextChangedListener(new TextWatcher(){

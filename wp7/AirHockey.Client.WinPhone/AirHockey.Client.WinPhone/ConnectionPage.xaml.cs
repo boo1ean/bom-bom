@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using AirHockey.Client.WinPhone.Infrastructure;
 using AirHockey.Client.WinPhone.Network;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -54,17 +55,26 @@ namespace AirHockey.Client.WinPhone
 
         private void ApplicationBarConnectButton_Click(object sender, EventArgs e)
         {
-            indicator.IsVisible = true;
-            try
+            if (IpText.Text != "" && UserName.Text != "")
             {
-                socketClient.Connect(IpText.Text, 5000);
+                var ip = string.Empty;
+                var port = string.Empty;
+                var ipParser = new IpParser();
+                ipParser.Parse(IpText.Text, ref ip, ref port);
+                try
+                {
+                    socketClient.Connect(ip, Int32.Parse(port));
+                    indicator.IsVisible = true;
+                }
+                catch (Exception)
+                {
+                    MessageText.Text = "Error!";
+                }
             }
-            catch (Exception)
+            else
             {
-                ConnectFailed(SocketError.NotInitialized);
-                MessageText.Text = "Ip address is empty!";
+                MessageText.Text = "Ip address or User name is empty!";
             }
-            
         }
 
         void socketClient_ConnectFailed(SocketError result)
@@ -74,6 +84,8 @@ namespace AirHockey.Client.WinPhone
 
         void socketClient_ConnectCompleted()
         {
+            socketClient.SendInitInfo();
+            socketClient.SendName(UserName.Text);
             Dispatcher.BeginInvoke(ConnectCompleted);
         }
 

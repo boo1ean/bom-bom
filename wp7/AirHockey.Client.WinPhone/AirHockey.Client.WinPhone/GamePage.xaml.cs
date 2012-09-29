@@ -40,6 +40,7 @@ namespace AirHockey.Client.WinPhone
             {
                 time.Visibility = Visibility.Collapsed;
                 timer.Stop();
+                this.NavigationService.Navigate(new Uri("/Accelerometr.xaml", UriKind.Relative));
             }
         }
     }

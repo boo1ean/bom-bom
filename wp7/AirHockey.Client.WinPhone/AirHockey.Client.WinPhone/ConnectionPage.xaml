@@ -26,10 +26,12 @@
     <!--Content-->
     <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
       <StackPanel>
-        <TextBlock Text="Server IP" Style="{StaticResource PhoneTextNormalStyle}" />
+        <TextBlock Text="Server IP(x.x.x.x:port)" Style="{StaticResource PhoneTextNormalStyle}" />
         <TextBox Name="IpText"/>
+        <TextBlock Text="User Name" Style="{StaticResource PhoneTextNormalStyle}" />
+        <TextBox Name="UserName"/>
         <TextBlock Name="MessageText" Text="" Style="{StaticResource PhoneTextNormalStyle}" />
-      </StackPanel>
+       </StackPanel>
     </Grid>
   </Grid>
  
