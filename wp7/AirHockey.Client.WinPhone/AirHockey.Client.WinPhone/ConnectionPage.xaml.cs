@@ -40,15 +40,15 @@ namespace AirHockey.Client.WinPhone
             this.NavigationService.Navigate(new Uri("/Accelerometr.xaml", UriKind.Relative)); 
         }
 
-        private void ApplicationBarFindButton_Click(object sender, EventArgs e)
-        {
-            indicator.IsVisible = true;
+        //private void ApplicationBarFindButton_Click(object sender, EventArgs e)
+        //{
+        //    indicator.IsVisible = true;
             
-            //some method to find server
-            MessageText.Text = "Server Finded!";
-            //indicator.IsVisible = false;
+        //    //some method to find server
+        //    MessageText.Text = "Server Finded!";
+        //    //indicator.IsVisible = false;
 
-        }
+        //}
 
         private void ApplicationBarConnectButton_Click(object sender, EventArgs e)
         {
@@ -70,12 +70,16 @@ namespace AirHockey.Client.WinPhone
         {
             indicator.IsVisible = false;
             MessageText.Text = "Connected!!!!!!";
+            var playButton = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            playButton.IsEnabled = true;
         }
 
         private void ConnectFailed(System.Net.Sockets.SocketError result)
         {
             indicator.IsVisible = false;
             MessageText.Text = "Connection failed!!!!!!";
+            var playButton = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            playButton.IsEnabled = false;
         }
     }
 }
