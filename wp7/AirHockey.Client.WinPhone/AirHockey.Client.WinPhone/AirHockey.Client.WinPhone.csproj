@@ -87,6 +87,7 @@
     <Compile Include="Accelerometr.xaml.cs">
       <DependentUpon>Accelerometr.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\IpParser.cs" />
     <Compile Include="Network\SocketClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ConnectionVm.cs" />

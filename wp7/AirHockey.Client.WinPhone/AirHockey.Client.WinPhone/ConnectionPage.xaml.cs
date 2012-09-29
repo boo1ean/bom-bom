@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using AirHockey.Client.WinPhone.Infrastructure;
 using AirHockey.Client.WinPhone.Network;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -55,13 +56,18 @@ namespace AirHockey.Client.WinPhone
         {
             if (IpText.Text != "" && UserName.Text != "")
             {
+                var ip = string.Empty;
+                var port = string.Empty;
+                var ipParser = new IpParser();
+                ipParser.Parse(IpText.Text,ref ip, ref port);
                 try
                 {
-                    socketClient.Connect(IpText.Text, 5000);
+                    socketClient.Connect(ip, Int32.Parse(port));
                     indicator.IsVisible = true;
                 }
                 catch (Exception)
                 {
+                    MessageText.Text = "Error!";
                 }
             }
             else
