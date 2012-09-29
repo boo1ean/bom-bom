@@ -9,7 +9,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
+    SupportedOrientations="Landscape" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
 
@@ -37,7 +37,6 @@
             <Line x:Name="yLine" X1="240" Y1="350" X2="240" Y2="270" Stroke="Green" StrokeThickness="4"></Line>
             <Line x:Name="zLine" X1="240" Y1="350" X2="190" Y2="400" Stroke="Blue" StrokeThickness="4"></Line>
             <TextBlock Height="30" HorizontalAlignment="Center" Margin="6,571,6,0" Name="statusTextBlock" Text="TextBlock" VerticalAlignment="Top" Width="444" />
-
         </Grid>
     </Grid>
  
