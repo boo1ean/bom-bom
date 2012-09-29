@@ -9,21 +9,24 @@
                             Foreground="{StaticResource PhoneForegroundBrush}" SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
                             mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480" shell:SystemTray.IsVisible="True">
 
-  <!--LayoutRoot-->
-  <Grid x:Name="LayoutRoot" Background="Transparent">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
+    <!--LayoutRoot-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-    <!--TitlePanel-->
-    <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-      <TextBlock x:Name="ApplicationTitle" Text="AIR HOCKEY" Style="{StaticResource PhoneTextNormalStyle}" />
-      <TextBlock x:Name="PageTitle" Text="game" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" />
-    </StackPanel>
+        <!--TitlePanel-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationTitle" Text="AIR HOCKEY" Style="{StaticResource PhoneTextNormalStyle}" />
+            <TextBlock x:Name="PageTitle" Text="game" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" />
+        </StackPanel>
 
-    <!--ContentPanel-->
-    <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"></Grid>
-  </Grid>
+        <!--ContentPanel-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Name="time" Margin="9,-7,0,0">5</TextBlock>
+        </Grid>
+        
+    </Grid>
 
 </phone:PhoneApplicationPage>
