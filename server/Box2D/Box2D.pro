@@ -106,11 +106,3 @@ HEADERS += \
     Dynamics/Joints/b2FrictionJoint.h \
     Dynamics/Joints/b2DistanceJoint.h \
     Rope/b2Rope.h
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
-    INSTALLS += target
-}

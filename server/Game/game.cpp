@@ -5,18 +5,17 @@
 #include "player.h"
 #include "observer.h"
 
-Game::Game(int argc, char* argv[]) :
-    QApplication(argc, argv)
+Game::Game(/*int argc, char* argv[]*/)
 {
     _server = new Server;
 
     connect(_server, SIGNAL(newConnection(Connection*)),
-            this,    SLOT(receiveConnection(Connection*)));
+            this,    SLOT(addClient(Connection*)));
 
     _scene = new Scene;
 }
 
-void Game::receiveConnection(Connection *connection) {
+void Game::addClient(Connection *connection) {
     connect(connection, SIGNAL(newCommand(Command, QByteArray)),
             this,       SLOT(initClient(Command, QByteArray)));
 }

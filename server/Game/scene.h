@@ -12,8 +12,10 @@ class Scene : public QObject
     b2World *_world;
     QGraphicsScene *_scene;
 
+    void initGraphicsScene();
+
 public:
-    explicit Scene(QObject *parent = 0);
+    Scene(QObject *parent = 0);
     
 signals:
     

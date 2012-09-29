@@ -7,7 +7,7 @@
 #include "clientscreenobject.h"
 #include "scene.h"
 
-class Game : public QApplication
+class Game : QObject
 {
     Q_OBJECT
 
@@ -17,12 +17,12 @@ class Game : public QApplication
     QList <ClientScreenObject*> clients;
 
 public:
-    explicit Game(int argc, char* argv[]);
+    explicit Game(/*int argc, char* argv[]*/);
     
 signals:
     
 private slots:
-    void receiveConnection(Connection* connection);
+    void addClient(Connection* connection);
     void initClient(Command command, QByteArray data);
 };
 

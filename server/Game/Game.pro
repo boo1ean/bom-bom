@@ -39,5 +39,16 @@ HEADERS  += mainwindow.h \
 RESOURCES += \
     tiles.qrc
 
-INCLUDEPATH += .. \
+INCLUDEPATH += . \
+    .. \
     ../Box2D
+
+LIBS += -lBox2D
+
+debug {
+    LIBS += -L../Box2D/debug
+}
+
+release {
+    LIBS += -L../Box2D/release
+}

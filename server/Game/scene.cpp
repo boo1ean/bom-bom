@@ -1,16 +1,22 @@
 #include "scene.h"
 #include <QGLWidget>
 #include <QGraphicsView>
+#include <QGraphicsScene>
 
-Scene::Scene( QObject *parent) :
+Scene::Scene(QObject *parent) :
     QObject(parent)
 {
-    //_world = new b2World(b2Vec2());
+    _world = new b2World(b2Vec2());
 
-    QGLWidget *widget = new QGLWidget;
+    initGraphicsScene();
+}
 
+void Scene::initGraphicsScene()
+{
     QGraphicsView *view = new QGraphicsView;
-    view->setViewport(widget);
 
-    widget->showFullScreen();
+    _scene = new QGraphicsScene(this);
+    view->setScene(_scene);
+
+    view->showFullScreen();
 }
