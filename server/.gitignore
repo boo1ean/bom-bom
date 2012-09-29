@@ -1,6 +1,0 @@
-*.user
-*.o
-moc_*
-qrc_*
-GraphicView
-Makefile
