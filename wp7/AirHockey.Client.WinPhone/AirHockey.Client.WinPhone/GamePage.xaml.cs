@@ -13,11 +13,35 @@ using Microsoft.Phone.Controls;
 
 namespace AirHockey.Client.WinPhone
 {
+    using System.Windows.Threading;
+
     public partial class GamePage : PhoneApplicationPage
     {
+        DispatcherTimer timer;
+
         public GamePage()
         {
             InitializeComponent();
+            timer = new DispatcherTimer();
+            timer.Tick += this.Timer_Tick;
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs args)
+        {
+            int seconds = Convert.ToInt32(time.Text);
+            if (seconds != 1)
+            {
+                seconds--;
+                time.Text = seconds.ToString();
+            }
+            else
+            {
+                time.Visibility = Visibility.Collapsed;
+                timer.Stop();
+                this.NavigationService.Navigate(new Uri("/Accelerometr.xaml", UriKind.Relative));
+            }
         }
     }
 }
