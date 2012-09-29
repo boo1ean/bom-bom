@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -53,10 +54,19 @@ namespace AirHockey.Client.WinPhone
         private void ApplicationBarConnectButton_Click(object sender, EventArgs e)
         {
             indicator.IsVisible = true;
-            socketClient.Connect(IpText.Text,5000);
+            try
+            {
+                socketClient.Connect(IpText.Text, 5000);
+            }
+            catch (Exception)
+            {
+                ConnectFailed(SocketError.NotInitialized);
+                MessageText.Text = "Ip address is empty!";
+            }
+            
         }
 
-        void socketClient_ConnectFailed(System.Net.Sockets.SocketError result)
+        void socketClient_ConnectFailed(SocketError result)
         {
             Dispatcher.BeginInvoke(() => ConnectFailed(result));
         }
@@ -74,7 +84,7 @@ namespace AirHockey.Client.WinPhone
             playButton.IsEnabled = true;
         }
 
-        private void ConnectFailed(System.Net.Sockets.SocketError result)
+        private void ConnectFailed(SocketError result)
         {
             indicator.IsVisible = false;
             MessageText.Text = "Connection failed!!!!!!";
