@@ -52,7 +52,7 @@ namespace AirHockey.Client.WinPhone
                     PlaySound("Flop.wav");
                     break;
                 case ServerNotifications.Win:
-
+                    Vibrate(1000);
                     break;
                 case ServerNotifications.FieldUpdated:
 
@@ -65,6 +65,7 @@ namespace AirHockey.Client.WinPhone
                     break;
                 case ServerNotifications.Start:
                     Vibrate(1000);
+                    PlaySound("OutHere1.wav");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("notification");
