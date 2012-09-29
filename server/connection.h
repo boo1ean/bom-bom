@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QByteArray>
 #include <QTcpSocket>
-#include <Command.h>
+#include <command.h>
 
 class Connection : public QObject
 {

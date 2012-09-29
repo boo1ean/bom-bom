@@ -1,7 +1,7 @@
 #include "client.h"
 
 Client::Client(Connection *connection, QObject *parent) :
-    connection(connection), QObject(parent)
+    QObject(parent), connection(connection)
 {
     connect(connection, SIGNAL(newCommand(Command, QByteArray)),
             this,       SLOT(executeCommand(Command, QByteArray)));

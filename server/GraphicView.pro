@@ -26,14 +26,14 @@ HEADERS  += mainwindow.h \
     user.h \
     server.h \
     connection.h \
-    Command.h \
     game.h \
     screenobject.h \
     clientscreenobject.h \
     player.h \
     client.h \
     ClientType.h \
-    observer.h
+    observer.h \
+    command.h
 
 RESOURCES += \
     tiles.qrc
