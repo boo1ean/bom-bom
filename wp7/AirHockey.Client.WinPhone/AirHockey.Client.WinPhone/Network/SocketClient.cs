@@ -1,16 +1,19 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace AirHockey.Client.WinPhone.Network
 {
-    public class SocketClient
+    internal class SocketClient
     {
-        readonly Socket _socket;
+        private readonly Socket _socket;
 
         public delegate void ConnectCompletedEventHandler();
         public delegate void ConnectFailedEventHandler(SocketError result);
         public event ConnectCompletedEventHandler ConnectCompleted;
         public event ConnectFailedEventHandler ConnectFailed;
+
+        public bool IsConnected { get; private set; }
 
         public SocketClient()
         {
@@ -26,7 +29,10 @@ namespace AirHockey.Client.WinPhone.Network
                 (s, e) =>
                 {
                     if (e.SocketError == SocketError.Success)
+                    {
                         invokeConnectCompleted();
+                        IsConnected = true;
+                    }
                     else
                         invokeConnectFailed(e.SocketError);
                 };
@@ -34,9 +40,21 @@ namespace AirHockey.Client.WinPhone.Network
             _socket.ConnectAsync(socketEventArg);
         }
 
-        public void Send(string data)
+        public void Send(byte[] data)
         {
-            
+            var socketEventArg = new SocketAsyncEventArgs { RemoteEndPoint = _socket.RemoteEndPoint, UserToken = null };
+            socketEventArg.SetBuffer(data, 0, data.Length);
+            _socket.SendAsync(socketEventArg);
+        }
+
+        public void SendInitInfo()
+        {
+            Send(new byte[] { (byte)ServerCommands.Init, 2 });
+        }
+
+        public void SendName(string name)
+        {
+            Send(Encoding.UTF8.GetBytes(name));
         }
 
         private void invokeConnectCompleted()
