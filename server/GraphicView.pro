@@ -31,9 +31,9 @@ HEADERS  += mainwindow.h \
     clientscreenobject.h \
     player.h \
     client.h \
-    ClientType.h \
     observer.h \
-    command.h
+    command.h \
+    clienttype.h
 
 RESOURCES += \
     tiles.qrc

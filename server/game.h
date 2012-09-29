@@ -5,7 +5,7 @@
 #include <server.h>
 #include <connection.h>
 #include <clientscreenobject.h>
-#include <ClientType.h>
+#include <clienttype.h>
 #include <player.h>
 #include <observer.h>
 

@@ -36,11 +36,12 @@ void Game::initClient(Command command, QByteArray data) {
             break;
 
             default:
-                throw new std::exception;
+                throw new std::exception();
         }
 
         clients.push_back(clientScreenObject);
 
+        /* deattach event handler */
         connection->disconnect(this);
     }
 }
