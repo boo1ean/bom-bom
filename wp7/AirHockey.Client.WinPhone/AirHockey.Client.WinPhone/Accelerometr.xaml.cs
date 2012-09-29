@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using AirHockey.Client.WinPhone.Network;
 using Microsoft.Devices.Sensors;
 using Microsoft.Phone.Controls;
@@ -19,13 +12,13 @@ namespace AirHockey.Client.WinPhone
     public partial class MainPage : PhoneApplicationPage
     {
         private Accelerometer accelerometer;
-        private SocketClient client;
+        private SocketClient socketClient = SocketClient.Client;
         
+
 
         public MainPage()
         {
             InitializeComponent();
-            client = new SocketClient();
 
             if(!Accelerometer.IsSupported)
             {
@@ -77,7 +70,17 @@ namespace AirHockey.Client.WinPhone
             zLine.X2 = zLine.X1 - acceleration.Z * 100;
             zLine.Y2 = zLine.Y1 + acceleration.Z * 100;
 
+
+            var buffer = new List<byte>
+                             {
+                                 (byte) ServerCommands.AccelerometerData
+
+                             };
+            buffer.AddRange(BitConverter.GetBytes(acceleration.X));
+            buffer.AddRange(BitConverter.GetBytes(acceleration.Y));
+            buffer.AddRange(BitConverter.GetBytes(acceleration.Z));
             
+            socketClient.Send(buffer.ToArray());
         }
 
         private void stopButton_Click(object sender, RoutedEventArgs e)
