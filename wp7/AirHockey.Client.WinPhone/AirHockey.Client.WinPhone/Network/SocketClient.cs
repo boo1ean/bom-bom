@@ -10,6 +10,7 @@ namespace AirHockey.Client.WinPhone.Network
 {
     internal class SocketClient : IDisposable
     {
+        private static SocketClient _client;
         private int _maxBufferSize = 2;
 
         private Socket _socket;
@@ -24,6 +25,11 @@ namespace AirHockey.Client.WinPhone.Network
         public event ReceiveEventHandler Received;
 
         public bool IsConnected { get; private set; }
+
+        public static SocketClient Client
+        {
+            get { return _client ?? (_client = new SocketClient()); }
+        }
 
         public int MaxReceiveBufferSize
         {
@@ -148,11 +154,10 @@ namespace AirHockey.Client.WinPhone.Network
 
         public void Dispose()
         {
-            if (_socket != null)
-            {
-                _socket.Dispose();
-                _socket = null;
-            }
+            if (_socket == null) return;
+            
+            _socket.Dispose();
+            _socket = null;
         }
     }
 }
