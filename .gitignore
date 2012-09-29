@@ -1,0 +1,10 @@
+*.user
+*.o
+moc_*
+qrc_*
+Makefile
+*[Dd]ebug*
+*[Rr]elease*
+*.exe
+*.a
+*.autosave

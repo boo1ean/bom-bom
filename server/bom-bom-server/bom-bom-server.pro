@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    ../Box2D
+    ../Box2D \
+    ../bom-bom-server-app

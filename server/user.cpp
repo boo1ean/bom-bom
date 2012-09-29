@@ -1,6 +1,7 @@
 #include "user.h"
 #include <QDebug>
 #include <QtNetwork>
+#include <exception>
 
 User::User(QTcpSocket * connection, QObject *parent) :
     QObject(parent)
@@ -54,7 +55,7 @@ void User::onReadyRead() {
         break;
 
         default:
-        break;
+            throw new std::exception("Unknown command.");
     }
 }
 

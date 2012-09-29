@@ -12,10 +12,17 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    user.cpp
+    user.cpp \
+    game.cpp \
+    server.cpp \
+    connection.cpp
 
 HEADERS  += mainwindow.h \
-    user.h
+    user.h \
+    game.h \
+    server.h \
+    connection.h \
+    Command.h
 
 RESOURCES += \
     tiles.qrc
