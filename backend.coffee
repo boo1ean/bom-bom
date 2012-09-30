@@ -34,6 +34,9 @@ new Server
 express.get "/", (req, res) ->
 	res.sendfile "index.html"
 
+express.get "/box2d.js", (req, res) ->
+	res.sendfile "Box2dWeb-2.1.a.3.min.js"
+
 express.get "/frontend.js", (req, res) ->
 	res.sendfile "frontend.js"
 
