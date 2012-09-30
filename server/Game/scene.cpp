@@ -12,14 +12,14 @@ Scene::Scene(float w, float h, QObject *parent) :
 
     connect(_time, SIGNAL(timeout()), this, SLOT(onNewFrame()));
 
-    initGraphicsScene();
+    initGraphicsScene(w, h);
 
-    _world = new b2World(b2Vec2(0, -9.8f));
+    _world = new b2World(b2Vec2());
 
     float left = -w/2;
     float right = w/2;
-    float top = h/2;
-    float bottom = -h/2;
+    float top = -h/2;
+    float bottom = h/2;
 
     // top wall
     _walls.push_back(new Wall(this, b2Vec2(left, top), b2Vec2(right, top)));
@@ -30,19 +30,22 @@ Scene::Scene(float w, float h, QObject *parent) :
     // bottom wall
     _walls.push_back(new Wall(this, b2Vec2(left, bottom), b2Vec2(right, bottom)));
 
-    _ball = new Ball(this, h/20);
+    _ball = new Ball(this, 10);
 
     _time->start(1000/60);
 }
 
-void Scene::initGraphicsScene()
+void Scene::initGraphicsScene(float w, float h)
 {
     QGraphicsView *view = new QGraphicsView;
 
     _scene = new QGraphicsScene(this);
     view->setScene(_scene);
+    view->resize(w, h);
+    view->show();
 
-    view->showFullScreen();
+    _scene->addLine(0, 0, 10, 0);
+    _scene->addLine(0, 0, 0, 10);
 }
 
 void Scene::onNewFrame()

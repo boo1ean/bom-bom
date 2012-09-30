@@ -20,7 +20,7 @@ class Scene : public QObject
 
     QTimer *_time;
 
-    void initGraphicsScene();
+    void initGraphicsScene(float w, float h);
 
 public:
     Scene(float w, float h, QObject *parent = 0);
