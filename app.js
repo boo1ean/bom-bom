@@ -8,6 +8,34 @@ var express = require('express')
 
 var app = module.exports = express.createServer();
 
+var io = require("socket.io").listen(app);
+
+var net = require("net");
+
+var clients = [];
+
+tcpServer = net.createServer(function (socket) {
+  socket.name = socket.remoteAddress + ":" + socket.remotePort;
+  console.log(socket.name);
+  clients.push(socket);
+  socket.on("data", function(data) {
+    console.log(data);
+    try {
+    var x = data.readFloatLE(0);
+    var y = data.readFloatLE(4);
+    var z = data.readFloatLE(8);
+    var packet = [x, y, z];
+    console.log(packet);
+    io.sockets.emit("acceleration", packet);
+    }
+    catch(e) {
+      console.log(e);
+    }    
+  });
+});
+
+tcpServer.listen(5000);
+
 // Configuration
 
 app.configure(function(){

@@ -76,7 +76,8 @@ function init() {
          bodyDef.position.y = 0;
          fixDef.restitution = 0.5;
          fixDef.friction = 0.5;
-         world.CreateBody(bodyDef).CreateFixture(fixDef);
+         var plank = world.CreateBody(bodyDef);
+         plank.CreateFixture(fixDef);
          
          //setup debug draw
          var debugDraw = new b2DebugDraw();
@@ -190,5 +191,17 @@ function init() {
             return {x: x, y: y};
          }
 
+         $("#coo").text("test");
+
+         var socket = io.connect('http://192.168.1.133:3000');
+         socket.on('acceleration', function (data) {
+            var c = 3;
+            data[0] = Math.round(data[0]*c);
+            data[1] = Math.round(data[1]*c);
+
+            $("#coo").text(data[0].toFixed(2) + " " + data[1].toFixed(2) + " " + data[2].toFixed(2));
+            
+           plank.ApplyImpulse(new b2Vec2(data[0], data[1]), plank.GetWorldCenter());
+         });
 
       };

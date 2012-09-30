@@ -7384,3 +7384,6 @@ a.badge:hover {
     overflow: visible !important;
   }
 }
+#coo {
+  font-family: monospace;
+}
