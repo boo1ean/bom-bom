@@ -9,8 +9,8 @@
 
     public class BomBomClient : IDisposable
     {
-        private const string ServerIpAddress = "192.168.1.89";
-        private const int ServerPort = 9595;
+        private const string ServerIpAddress = "192.168.1.65";
+        private const int ServerPort = 5000;
 
         private readonly TcpClient tcpClient;
 

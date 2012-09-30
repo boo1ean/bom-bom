@@ -49,6 +49,7 @@
             this.diffOutput = diffOutput;
 
             this.rects = rects;
+            bomBomClient.Connect();
         }
 
         void webcam_ImageCaptured(object source, WebcamEventArgs e)
@@ -71,8 +72,7 @@
 
                     var polygon = this.blobsScanner.ScanImage(cropped);
 
-                    // send polygon to server
-                    bomBomClient.Connect();
+                    // send polygon to server                    
                     bomBomClient.SendPolygon(polygon);
 
                     var bitmapWithRects = new Bitmap(webCamImage.Width, webCamImage.Height);
