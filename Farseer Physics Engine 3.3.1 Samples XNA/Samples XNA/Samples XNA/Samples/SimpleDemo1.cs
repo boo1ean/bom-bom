@@ -1,0 +1,134 @@
+﻿using System.Text;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace FarseerPhysics.SamplesFramework
+{
+    using System;
+
+    internal class SimpleDemo1 : PhysicsGameScreen, IDemoScreen
+    {
+        private Border _border;
+        private Body _rectangle;
+        private Sprite _rectangleSprite;
+        private Body[] _obstacles = new Body[5];
+        private Sprite _obstacle;
+
+        #region IDemoScreen Members
+
+        public string GetTitle()
+        {
+            return "Body with a single fixture";
+        }
+
+        public string GetDetails()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("This demo shows a single body with one attached fixture and shape.");
+            sb.AppendLine("A fixture binds a shape to a body and adds material");
+            sb.AppendLine("properties such as density, friction, and restitution.");
+            sb.AppendLine(string.Empty);
+            sb.AppendLine("GamePad:");
+            sb.AppendLine("  - Rotate object: left and right triggers");
+            sb.AppendLine("  - Move object: right thumbstick");
+            sb.AppendLine("  - Move cursor: left thumbstick");
+            sb.AppendLine("  - Grab object (beneath cursor): A button");
+            sb.AppendLine("  - Drag grabbed object: left thumbstick");
+            sb.AppendLine("  - Exit to menu: Back button");
+            sb.AppendLine(string.Empty);
+            sb.AppendLine("Keyboard:");
+            sb.AppendLine("  - Rotate Object: left and right arrows");
+            sb.AppendLine("  - Move Object: A,S,D,W");
+            sb.AppendLine("  - Exit to menu: Escape");
+            sb.AppendLine(string.Empty);
+            sb.AppendLine("Mouse / Touchscreen");
+            sb.AppendLine("  - Grab object (beneath cursor): Left click");
+            sb.AppendLine("  - Drag grabbed object: move mouse / finger");
+            return sb.ToString();
+        }
+
+        #endregion
+
+        private void LoadObstacles()
+        {
+            for (int i = 0; i < 5; ++i)
+            {
+                // _obstacles[i] = BodyFactory.CreateRectangle(World, 5f, 1f, 1f);
+                try
+                {
+                    _obstacles[i] = BodyFactory.CreateEllipse(World, 5f, 1f, 20, 1f);
+                }
+                catch (Exception)
+                {
+                    
+                   // throw;
+                }
+                
+                _obstacles[i].IsStatic = true;
+                _obstacles[i].Restitution = 1f;
+                _obstacles[i].Friction = 0f;
+            }
+
+            _obstacles[0].Position = new Vector2(-5f, 9f);
+            _obstacles[1].Position = new Vector2(15f, 6f);
+            _obstacles[2].Position = new Vector2(10f, -3f);
+            _obstacles[3].Position = new Vector2(-10f, -9f);
+            _obstacles[4].Position = new Vector2(-17f, 0f);
+
+            // create sprite based on body
+            _obstacle = new Sprite(ScreenManager.Assets.TextureFromShape(_obstacles[0].FixtureList[0].Shape,
+                                                                         MaterialType.Dots,
+                                                                         Color.SandyBrown, 0.8f));
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            World.Gravity = Vector2.Zero;
+
+            _border = new Border(World, this, ScreenManager.GraphicsDevice.Viewport);
+            
+
+            // Body circle = BodyFactory.CreateCircle(World, 5f, 0f, 1f);
+
+            _rectangle = BodyFactory.CreateCircle(World, 1f, 0f, 1f); //BodyFactory.CreateRectangle(World, 5f, 5f, 1f);
+            _rectangle.BodyType = BodyType.Dynamic;
+
+            LoadObstacles();
+            
+
+            SetUserAgent(_rectangle, 10f, 0f);
+            
+
+            // create sprite based on body
+            _rectangleSprite = new Sprite(ScreenManager.Assets.TextureFromShape(_rectangle.FixtureList[0].Shape,
+                                                                                MaterialType.Squares,
+                                                                                Color.Orange, 1f));
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            ScreenManager.SpriteBatch.Begin(0, null, null, null, null, null, Camera.View);
+            ScreenManager.SpriteBatch.Draw(_rectangleSprite.Texture, ConvertUnits.ToDisplayUnits(_rectangle.Position),
+                                           null,
+                                           Color.White, _rectangle.Rotation, _rectangleSprite.Origin, 1f,
+                                           SpriteEffects.None, 0f);
+
+            for (int i = 0; i < 5; ++i)
+            {
+                ScreenManager.SpriteBatch.Draw(_obstacle.Texture, ConvertUnits.ToDisplayUnits(_obstacles[i].Position),
+                                               null,
+                                               Color.White, _obstacles[i].Rotation, _obstacle.Origin, 1f,
+                                               SpriteEffects.None, 0f);
+            }
+
+
+            ScreenManager.SpriteBatch.End();
+            _border.Draw();
+            base.Draw(gameTime);
+        }
+    }
+}
