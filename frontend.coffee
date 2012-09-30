@@ -17,8 +17,8 @@ class Wall
       fix.density = 1
       fix.friction = 0.5
       fix.restitution = 0.5      
-      fix.shape = new b2PolygonShape
-      def.shape.SetAsBox w, h
+      fix.shape = new b2PolygonShape      
+      fix.shape.SetAsBox w, h
       def = new b2BodyDef
       def.type = b2Body.b2_staticBody
       def.position.Set x, y
@@ -99,3 +99,6 @@ class Game
       @socket.on "acceleration", (data) =>
          @scene.accelerate data.name, data.acceleration
       setInterval @scene.update, 1000/60
+
+window.onload = ->
+   new Game "http://192.168.1.133:3000"
