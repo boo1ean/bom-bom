@@ -159,7 +159,7 @@ namespace FarseerPhysics.SamplesFramework
 
             if (EnableCameraControl)
             {
-                HandleCamera(input, gameTime);
+                // HandleCamera(input, gameTime);
             }
 
             base.HandleInput(input, gameTime);

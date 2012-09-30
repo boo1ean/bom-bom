@@ -65,19 +65,15 @@ namespace FarseerPhysics.SamplesFramework
 
         private void LoadObstacles()
         {
-            for (int i = 0; i < 5; ++i)
+            for (int i = 0; i < 1; ++i)
             {
-                _obstacles[i] = BodyFactory.CreateRectangle(World, 5f, 1f, 1f);
+                _obstacles[i] = BodyFactory.CreateRectangle(World, 5f, 10f, 1f);
                 _obstacles[i].IsStatic = true;
                 _obstacles[i].Restitution = 0.2f;
                 _obstacles[i].Friction = 0.2f;
             }
 
             _obstacles[0].Position = new Vector2(-5f, 9f);
-            _obstacles[1].Position = new Vector2(15f, 6f);
-            _obstacles[2].Position = new Vector2(10f, -3f);
-            _obstacles[3].Position = new Vector2(-10f, -9f);
-            _obstacles[4].Position = new Vector2(-17f, 0f);
 
             // create sprite based on body
             _obstacle = new Sprite(ScreenManager.Assets.TextureFromShape(_obstacles[0].FixtureList[0].Shape,
@@ -88,7 +84,7 @@ namespace FarseerPhysics.SamplesFramework
         public override void Draw(GameTime gameTime)
         {
             ScreenManager.SpriteBatch.Begin(0, null, null, null, null, null, Camera.View);
-            for (int i = 0; i < 5; ++i)
+            for (int i = 0; i < 1; ++i)
             {
                 ScreenManager.SpriteBatch.Draw(_obstacle.Texture, ConvertUnits.ToDisplayUnits(_obstacles[i].Position),
                                                null,
