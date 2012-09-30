@@ -12,7 +12,7 @@ Game::Game(/*int argc, char* argv[]*/)
     connect(_server, SIGNAL(newConnection(Connection*)),
             this,    SLOT(addClient(Connection*)));
 
-    _scene = new Scene;
+    _scene = new Scene(640, 480);
 }
 
 void Game::addClient(Connection *connection) {

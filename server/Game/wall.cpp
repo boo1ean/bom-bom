@@ -10,7 +10,9 @@ Wall::Wall(Scene *scene, const b2Vec2& start, const b2Vec2& end, QObject *parent
 
     b2EdgeShape shape;
     shape.Set(start, end);
-    _body->CreateFixture(&shape);
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &shape;
+    _body->CreateFixture(&fixtureDef);
 
     _body->SetUserData(scene->getGraphics()->addLine(start.x, start.y, end.x, end.y));
 }

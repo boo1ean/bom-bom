@@ -30,28 +30,7 @@ Scene::Scene(float w, float h, QObject *parent) :
     // bottom wall
     _walls.push_back(new Wall(this, b2Vec2(left, bottom), b2Vec2(right, bottom)));
 
-
-    ///////////////////////////////////////////////
-
-
-    b2BodyDef def;
-    def.type = b2_dynamicBody;
-
-    _ball = _world->CreateBody(&def);
-
-    b2CircleShape shape;
-    shape.m_radius = 10;
-
-    b2FixtureDef ballFixture;
-
-    ballFixture.shape = &shape;
-    /*ballFixture.density = 1;
-    ballFixture.friction = 1;
-    ballFixture.restitution = 1;*/
-
-    _ball->CreateFixture(&ballFixture);
-
-    _ball->SetUserData(_scene->addEllipse(0, 0, 10, 10));
+    _ball = new Ball(this, h/20);
 
     _time->start(1000/60);
 }
@@ -69,12 +48,15 @@ void Scene::initGraphicsScene()
 void Scene::onNewFrame()
 {
     _world->Step(1.0f/60.0f, 100, 100);
-
-    const b2Vec2& pos = _ball->GetPosition();
-
-    qDebug() << pos.x << " " << pos.y;
-
-    QGraphicsItem* item = (QGraphicsItem*)_ball->GetUserData();
-    item->setPos(pos.x, -pos.y);
+    _ball->update();
 }
 
+b2World* Scene::getPhysics() const
+{
+    return _world;
+}
+
+QGraphicsScene* Scene::getGraphics() const
+{
+    return _scene;
+}
