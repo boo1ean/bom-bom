@@ -16,8 +16,8 @@ class Wall
       fix = new b2FixtureDef
       fix.density = 1
       fix.friction = 0.5
-      fix.restitution = 0.5      
-      fix.shape = new b2PolygonShape      
+      fix.restitution = 0.5
+      fix.shape = new b2PolygonShape
       fix.shape.SetAsBox w, h
       def = new b2BodyDef
       def.type = b2Body.b2_staticBody
@@ -27,26 +27,30 @@ class Wall
 
 class Ball
     constructor: (world, radius)->
-         b2BodyDef.type           = b2Body.b2_dynamicBody
-         b2BodyDef.position.x     = 0
-         b2BodyDef.position.y     = 0
-         b2FixtureDef.shape       = new b2CircleShape radius
-         b2FixtureDef.restitution = 1
-         b2FixtureDef.friction    = 0
-         ball = world.CreateBody bodyDef
-         ball.CreateFixture b2FixtureDef
+         fix = new b2FixtureDef
+         def = new b2BodyDef
+         def.type        = b2Body.b2_dynamicBody
+         def.position.x  = 0
+         def.position.y  = 0
+         fix.shape       = new b2CircleShape radius
+         fix.restitution = 1
+         fix.friction    = 0
+         ball = world.CreateBody def
+         ball.CreateFixture fix
          ball.ApplyImpulse new b2Vec2(100, 100), new b2Vec2(0, 0)
 
 class Plank
     constructor: (world, x, y, h, w)->
-         b2FixtureDef.shape.SetAsBox w, h
-         b2FixtureDef.shape       = new b2PolygonShape
-         b2BodyDef.position.x     = x
-         b2BodyDef.position.y     = y
-         b2FixtureDef.restitution = 0.5
-         b2FixtureDef.friction    = 0.5
-         @plank = world.CreateBody b2BodyDef
-         @plank.CreateFixture b2FixtureDef
+         fix = new b2FixtureDef
+         def = new b2BodyDef
+         fix.shape.SetAsBox w, h
+         fix.shape       = new b2PolygonShape
+         fix.restitution = 0.5
+         fix.friction    = 0.5
+         def.position.x  = x
+         def.position.y  = y
+         @plank = world.CreateBody def
+         @plank.CreateFixture fix
 
       accelerate: (acceleration) ->
          @plank.ApplyImpulse new b2Vec2(acceleration.x, acceleration.y), @plank.GetWorldCenter()
