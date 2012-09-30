@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     observer.cpp \
     scene.cpp \
     wall.cpp \
-    ball.cpp
+    ball.cpp \
+    plank.cpp \
+    sceneitem.cpp
 
 HEADERS  += mainwindow.h \
     user.h \
@@ -38,7 +40,9 @@ HEADERS  += mainwindow.h \
     clienttype.h \
     scene.h \
     wall.h \
-    ball.h
+    ball.h \
+    plank.h \
+    sceneitem.h
 
 RESOURCES += \
     tiles.qrc

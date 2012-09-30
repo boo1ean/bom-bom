@@ -1,22 +1,15 @@
 #ifndef BALL_H
 #define BALL_H
 
-#include <QObject>
-#include <Box2D.h>
+#include "sceneitem.h"
 
 class Scene;
 
-class Ball : public QObject
+class Ball : public SceneItem
 {
     Q_OBJECT
 public:
     Ball(Scene* scene, float r, QObject *parent = 0);
-
-    void update();
-
-private:
-
-    b2Body *_body;
     
 signals:
     

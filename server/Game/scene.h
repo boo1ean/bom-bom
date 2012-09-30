@@ -20,6 +20,8 @@ class Scene : public QObject
 
     QTimer *_time;
 
+    QList<SceneItem *> _updatables;
+
     void initGraphicsScene(float w, float h);
 
 public:
@@ -31,7 +33,6 @@ public:
 signals:
     
 private slots:
-
     void onNewFrame();
     
 };

@@ -1,14 +1,13 @@
-#include "ball.h"
+#include "plank.h"
 #include "scene.h"
-#include <QGraphicsItem>
 #include <QDebug>
 
-Ball::Ball(Scene *scene, float r, QObject *parent) :
+Plank::Plank(Scene *scene, const b2Vec2& c, float r, QObject *parent) :
     SceneItem(parent)
 {
     b2BodyDef def;
     def.type = b2_dynamicBody;
-    def.position.SetZero();
+    def.position.Set(c.x, c.y);
 
     _body = scene->getPhysics()->CreateBody(&def);
 
@@ -21,6 +20,4 @@ Ball::Ball(Scene *scene, float r, QObject *parent) :
     _body->CreateFixture(&fixtureDef);
 
     _body->SetUserData(scene->getGraphics()->addEllipse(-r, -r, r*2, r*2));
-
-    _body->ApplyLinearImpulse(b2Vec2(500, 500), b2Vec2());
 }

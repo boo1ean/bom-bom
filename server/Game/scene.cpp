@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QDebug>
+#include "plank.h"
 
 Scene::Scene(float w, float h, QObject *parent) :
     QObject(parent)
@@ -32,6 +33,10 @@ Scene::Scene(float w, float h, QObject *parent) :
 
     _ball = new Ball(this, 10);
 
+    _updatables.push_back(_ball);
+    _updatables.push_back(new Plank(this, b2Vec2(-100, 0), 50));
+    _updatables.push_back(new Plank(this, b2Vec2(100, 0), 50));
+
     _time->start(1000/60);
 }
 
@@ -44,14 +49,17 @@ void Scene::initGraphicsScene(float w, float h)
     view->resize(w, h);
     view->show();
 
-    _scene->addLine(0, 0, 10, 0);
-    _scene->addLine(0, 0, 0, 10);
+//    _scene->addLine(-100, -100, -100, 100);
+//    _scene->addLine(100, 100, 100, -100);
 }
 
 void Scene::onNewFrame()
 {
     _world->Step(1.0f/60.0f, 100, 100);
-    _ball->update();
+    foreach(SceneItem* updatable, _updatables)
+    {
+        updatable->update();
+    }
 }
 
 b2World* Scene::getPhysics() const
