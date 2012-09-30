@@ -1,13 +1,17 @@
 namespace AirHockey.Recognition.Client.Data
 {
-    using System.Collections.Generic;
-    using System.Drawing;
+    using Point = System.Drawing.Point;
 
     public class Polygon
     {
-        public Polygon(List<Point> points)
+        public Point MinPoint { get; set; }
+
+        public Point MaxPoint { get; set; }
+
+        public Polygon(Point minPoint, Point maxPoint)
         {
-            
+            MinPoint = minPoint;
+            MaxPoint = maxPoint;
         }
     }
 }

@@ -30,12 +30,12 @@
 
             result.ContinueWith(
                 it =>
+                {
+                    if (it.Status == TaskStatus.RanToCompletion)
                     {
-                        if (it.Status == TaskStatus.RanToCompletion)
-                        {
-                            networkStream = tcpClient.GetStream();
-                        }
-                    });
+                        networkStream = tcpClient.GetStream();
+                    }
+                });
 
             return result;
         }
@@ -55,9 +55,11 @@
             return this.SendData(data);
         }
 
-        public Task SendPolygons(IEnumerable<Polygon> polygons)
+        public Task SendPolygon(IEnumerable<Polygon> polygon)
         {
-            return null;
+            var command = this.commandRepository.GetSendPolygonCommand();
+            var data = command.Serialize(polygon);
+            return this.SendData(data);
         }
 
         private Task SendData(byte[] data)

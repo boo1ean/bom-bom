@@ -99,6 +99,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Networking\ISocketClient.cs" />
+    <Compile Include="Networking\SendPolygonCommand.cs" />
+    <Compile Include="Networking\SocketClient.cs" />
     <Compile Include="WindowTest.xaml.cs">
       <DependentUpon>WindowTest.xaml</DependentUpon>
     </Compile>

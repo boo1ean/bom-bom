@@ -6,5 +6,10 @@ namespace AirHockey.Recognition.Client.Networking
         {
             return new InitCommand();
         }
+
+        public SendPolygonCommand GetSendPolygonCommand()
+        {
+            return new SendPolygonCommand();
+        }
     }
 }

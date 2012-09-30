@@ -2,6 +2,8 @@
 {
     using AForge.Imaging.Filters;
 
+    using AirHockey.Recognition.Client.Networking;
+
     using WebCam_Capture;
 
     using System.Drawing;
@@ -26,8 +28,11 @@
 
         private Rectangle? selection;
 
+        private BomBomClient bomBomClient;
+
         public WebCam()
         {
+            this.bomBomClient = new BomBomClient();
             this.blobsScanner = new BlobsScanner();
         }
 
@@ -64,7 +69,12 @@
 
                     var cropped = CropDiff(pixelDiff);
 
-                    this.blobsScanner.ScanImage(cropped);
+                    var polygon = this.blobsScanner.ScanImage(cropped);
+
+                    // send polygon to server
+                    bomBomClient.Connect();
+                    bomBomClient.SendPolygon(polygon);
+
                     var bitmapWithRects = new Bitmap(webCamImage.Width, webCamImage.Height);
                     this.blobsScanner.Draw(bitmapWithRects);
 

@@ -1,5 +1,6 @@
 namespace AirHockey.Recognition.Client.ImageProcessing
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
@@ -8,21 +9,25 @@ namespace AirHockey.Recognition.Client.ImageProcessing
     using AForge.Imaging;
     using AForge.Math.Geometry;
 
+    using AirHockey.Recognition.Client.Data;
+
+    using Point = System.Drawing.Point;
+
     public class BlobsScanner
     {
         private readonly BlobCounter blobCounter = new BlobCounter();
+
         readonly Dictionary<int, List<IntPoint>> hulls = new Dictionary<int, List<IntPoint>>();
 
         private Bitmap image;
         private Blob[] blobs;
-        
 
         // Set monochromeImage to display by the control
-        public int ScanImage(Bitmap monochromeImage)
+        public IList<Polygon> ScanImage(Bitmap monochromeImage)
         {
             this.hulls.Clear();
 
-            this.image = monochromeImage; 
+            this.image = monochromeImage;
 
             this.blobCounter.ProcessImage(this.image);
 
@@ -30,27 +35,32 @@ namespace AirHockey.Recognition.Client.ImageProcessing
 
             var grahamScan = new GrahamConvexHull();
 
+            var polygons = new List<Polygon>();
             foreach (var blob in this.GetBlobs())
             {
                 List<IntPoint> leftEdge;
                 List<IntPoint> rightEdge;
-                List<IntPoint> topEdge;
-                List<IntPoint> bottomEdge;
 
                 // collect edge points
                 this.blobCounter.GetBlobsLeftAndRightEdges(blob, out leftEdge, out rightEdge);
-                this.blobCounter.GetBlobsTopAndBottomEdges(blob, out topEdge, out bottomEdge);
 
                 // find convex hull
                 var edgePoints = new List<IntPoint>();
                 edgePoints.AddRange(leftEdge);
                 edgePoints.AddRange(rightEdge);
 
-                List<IntPoint> hull = grahamScan.FindHull(edgePoints);
+                var hull = grahamScan.FindHull(edgePoints);
                 this.hulls.Add(blob.ID, hull);
-            }
 
-            return this.blobs.Length;
+                var minX = edgePoints.Min(x => x.X);
+                var minY = edgePoints.Min(x => x.Y);
+                var maxY = edgePoints.Max(x => x.Y);
+                var maxX = edgePoints.Max(x => x.X);
+
+                polygons.Add(new Polygon(new Point(minX, minY), new Point(maxX, maxY)));
+            }
+            
+            return polygons;
         }
 
         private IEnumerable<Blob> GetBlobs()
@@ -67,7 +77,7 @@ namespace AirHockey.Recognition.Client.ImageProcessing
             using (Graphics g = Graphics.FromImage(iutputBitmap))
             {
                 Pen highlightPen = new Pen(Color.Red);
-                
+
                 foreach (Blob blob in this.GetBlobs())
                 {
                     g.DrawPolygon(highlightPen, PointsListToArray(this.hulls[blob.ID]));
