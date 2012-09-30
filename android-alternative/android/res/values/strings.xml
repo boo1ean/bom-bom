@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Slugger</string>
+    <string name="title_activity_main">Slugger</string>
+    <string name="start_button">Start game!</string>
+    <string name="input_player_name">Input player name</string>
+    <string name="input_server_ip">Input server IP</string>
+</resources>

@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/main_background_color"
+    android:padding="30dip" >
+    <LinearLayout
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center" >
+
+            <EditText
+                    android:id="@+id/player_name"
+                    android:hint="@string/input_player_name"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_marginBottom="25dip"
+                    android:textSize="24.5sp"
+                    android:inputType="text"
+                    android:maxLength="16"/>
+
+            <EditText
+                    android:id="@+id/server_ip"
+                    android:hint="@string/input_server_ip"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_marginBottom="25dip"
+                    android:textSize="24.5sp"
+                    android:inputType="text"/>
+
+            <Button
+                    android:id="@+id/start_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="@string/start_button"
+                    android:textSize="24.5sp"/>
+    </LinearLayout>
+</LinearLayout>
