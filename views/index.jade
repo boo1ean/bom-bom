@@ -1,19 +1,4 @@
-
-.navbar.navbar-fixed-top
-  .navbar-inner
-    .container
-      a.brand(href="#")= title
-      .nav-collapse
-        ul.nav
-          li.active
-            a(href="#") Home
-          li
-            a(href="#about") About
-          li
-            a(href="#contact") Contact
-.container
-  .hero-unit
-    h1 Hello, World!
-    p This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
-    p
-      a.btn.btn-primary.btn-large(href="#") Lean more >>
+body(onload="init();")
+	canvas#canvas(width=600, height=400)
+	script(src='javascripts/Box2dWeb-2.1.a.3.min.js', type='text/javascript')
+	script(src='javascripts/scene.js', type='text/javascript')
